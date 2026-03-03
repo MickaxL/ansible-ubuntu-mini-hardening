@@ -13,3 +13,7 @@
     - name : deploy ssh hardening rules
       ansible.builtin.include_role:
         name: ssh-hardening
+      
+    - name : deploy permissions hardening rules
+      ansible.builtin.include_role:
+        name: perm-hardening
