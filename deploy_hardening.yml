@@ -1,0 +1,16 @@
+---
+
+- name : deploy hardening-rules on Ubuntu hosts
+  hosts: ubuntu
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name : update system
+      ansible.builtin.include_role:
+        name: debian-system-update
+
+    - name : deploy ssh hardening rules
+      ansible.builtin.include_role:
+        name: ssh-hardening
+        
