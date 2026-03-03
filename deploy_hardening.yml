@@ -17,3 +17,7 @@
     - name : deploy permissions hardening rules
       ansible.builtin.include_role:
         name: perm-hardening
+    
+    - name : deploy disable ipv6 rules
+      ansible.builtin.include_role:
+        name: disable_ipv6

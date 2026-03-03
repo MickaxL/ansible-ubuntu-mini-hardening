@@ -1,0 +1,9 @@
+---
+- name: Update grub
+  ansible.builtin.command: update-grub
+  changed_when: true
+
+- name: Reboot system
+  ansible.builtin.reboot:
+    msg: "Rebooting to apply IPv6 disable via GRUB"
+    reboot_timeout: 600

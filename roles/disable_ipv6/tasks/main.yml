@@ -1,0 +1,13 @@
+- name: Disable IPv6 in GRUB
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: "^{{ item.key }}="
+    line: '{{ item.key }}="{{ item.value }}"'
+  loop:
+    - { key: "GRUB_CMDLINE_LINUX_DEFAULT", value: "quiet splash ipv6.disable=1" }
+    - { key: "GRUB_CMDLINE_LINUX", value: "ipv6.disable=1" }
+  notify: 
+      - Update grub
+      - Reboot system
+  
+# note : sudo reboot is required to apply the changes, bc i modified the kernel so reboot is required otherwise ipv6 still work bc kernel still up 
