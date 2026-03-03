@@ -1,0 +1,29 @@
+---
+
+- name : Update package list on Ubuntu system
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: safe  
+    cache_valid_time: 3600 # Cache validity in seconds (1 hour) avoid unnecessary updates if the playbook is run multiple times within a short period
+  become: true
+
+- name : Clean up unused packages and dependencies
+  ansible.builtin.apt:
+    autoremove: yes
+    autoclean: yes
+  become: true
+
+- name: Check if a reboot is required (Debian-based)
+  stat:
+    path: /var/run/reboot-required
+  register: debian_reboot_required
+  
+- name: Reboot the system if required
+  ansible.builtin.reboot:
+  when:  debian_reboot_required.stat.exists
+  become: true 
+
+- name: Display reboot status
+  debug:
+    msg: "Reboot required"
+  when: debian_reboot_required.stat.exists
