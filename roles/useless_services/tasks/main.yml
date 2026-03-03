@@ -1,0 +1,17 @@
+- name: Remove insecure services
+  ansible.builtin.apt:
+    name:
+      - telnet
+      - rsh-client
+      - xinetd
+    state: absent
+    purge: yes
+  become: true
+
+# all of theses r not installed by default but we want to make sure they r removed if they r present
+# systemctl list-unit-files | grep -E 'telnet|rsh|xinetd'
+# systemctl status telnet
+# systemctl status rsh
+# systemctl status xinetd
+
+# sudo apt install xinetd -y, systemctl status xinetd => manuel test for me 

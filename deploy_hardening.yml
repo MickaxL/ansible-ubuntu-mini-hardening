@@ -21,3 +21,7 @@
     - name : deploy disable ipv6 rules
       ansible.builtin.include_role:
         name: disable_ipv6
+    
+    - name : remove useless services
+      ansible.builtin.include_role:
+        name: useless_services
