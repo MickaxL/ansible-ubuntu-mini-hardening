@@ -8,9 +8,8 @@
   tasks:
     - name : update system
       ansible.builtin.include_role:
-        name: debian-system-update
+        name: update-system
 
     - name : deploy ssh hardening rules
       ansible.builtin.include_role:
         name: ssh-hardening
-        
