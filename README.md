@@ -1,55 +1,125 @@
-# Ansible Ubuntu Mini Hardening
+![Ansible](https://img.shields.io/badge/Ansible-2.16+-red?logo=ansible)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04%2F24.04-orange?logo=ubuntu)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+
+# 🔒 Ansible Ubuntu Mini Hardening
 
 Automated application of essential security controls on Ubuntu Server (tested on 22.04 / 24.04 LTS).
 
-This project applies a safe and minimal subset of **CIS Ubuntu Linux Benchmark Level 1** controls using Ansible — without breaking core functionality.
+This project applies a safe and minimal subset of **CIS Ubuntu Linux Benchmark Level 1** controls 
+using Ansible — without breaking core functionality.
 
-**Goal**  
-Quickly secure my homelab Ubuntu servers while building toward a **multi-distro hardening framework** (Ubuntu, Debian, Rocky/AlmaLinux, etc.), inspired by my internship on system hardening and security automation.
+> 💼 Inspired by my final internship at **Quite Good (Luxembourg)** where I worked as a 
+> Cyber Security Engineer, automating server hardening and access management across 
+> multi-distro environments.
 
-### Current Roles & Controls
+---
 
-- **update-system**  
-  - Full system update & upgrade  
-  - Enable unattended-upgrades for security patches  
+## 🎯 Goal
 
-- **ssh-hardening**  
-  - Disable root login via SSH  
-  - Disable password authentication (force key-based)  
+Quickly secure Ubuntu servers while building toward a **multi-distro hardening framework** 
+(Ubuntu, Debian, Rocky/AlmaLinux, etc.).
 
+---
 
-- **perm-hardening**  
-  - Strict permissions on critical files (/etc/passwd 644, /etc/shadow 600, sshd_config 600, etc.)  
+## 📁 Project Structure
+```
+ansible-ubuntu-mini-hardening/
+├── hardening.yml          # Main playbook
+├── inventory.ini          # Target hosts
+└── roles/
+    ├── update-system/     # System updates & auto-patches
+    ├── ssh-hardening/     # SSH lockdown
+    ├── perm-hardening/    # Critical file permissions
+    ├── disable_ipv6/      # Disable IPv6
+    └── useless-services/  # Remove dangerous services
+```
 
-- **disable_ipv6**  
-  - Disable IPv6 if not required  
+---
 
-- **useless-services**  
-  - Disable dangerous/unused services (telnet, rsh, xinetd, etc.)  
+## 🛡️ Current Roles & Controls
 
-Planned roles: fail2ban, auditd basic, UFW firewall, reporting.
+### `update-system`
+- Full system update & upgrade
+- Enable unattended-upgrades for automatic security patches
 
-### Usage
+### `ssh-hardening`
+- Disable root login via SSH
+- Disable password authentication (force key-based only)
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/MickaxL/ansible-ubuntu-mini-hardening.git
-   cd ansible-ubuntu-mini-hardening
+### `perm-hardening`
+- Strict permissions on critical files
+  - `/etc/passwd` → 644
+  - `/etc/shadow` → 600
+  - `/etc/sshd_config` → 600
 
-2. Edit inventory.ini
-   ```bash
-    [ubuntu]
-    192.168.160.129 ansible_user=user  
+### `disable_ipv6`
+- Disable IPv6 if not required (reduces attack surface)
 
-3. Dry-run (check mode)
-    ```bash
-    ansible-playbook -i inventory.ini hardening.yml --check --diff
+### `useless-services`
+- Disable dangerous/unused services (telnet, rsh, xinetd, etc.)
 
-4. Apply hardening (use with caution!):
-     ```bash
-    ansible-playbook -i inventory.ini hardening.yml
+---
 
-Tested on
+## 🚀 Usage
 
-Ubuntu Server 24.04 LTS (VMware)
-Ansible 2.16+ / Python 3.10+
+### 1. Clone the repo
+```bash
+git clone https://github.com/MickaxL/ansible-ubuntu-mini-hardening.git
+cd ansible-ubuntu-mini-hardening
+```
+
+### 2. Edit your inventory
+```ini
+[ubuntu]
+192.168.1.100 ansible_user=youruser
+```
+
+### 3. Dry-run first (recommended ✅)
+```bash
+ansible-playbook -i inventory.ini hardening.yml --check --diff
+```
+
+### 4. Apply hardening
+```bash
+ansible-playbook -i inventory.ini hardening.yml
+```
+
+---
+
+## ✅ Tested On
+
+| OS | Version | Ansible | Python |
+|----|---------|---------|--------|
+| Ubuntu Server | 24.04 LTS | 2.16+ | 3.10+ |
+| Ubuntu Server | 22.04 LTS | 2.16+ | 3.10+ |
+
+---
+
+## 🔜 Roadmap
+
+- [x] SSH hardening
+- [x] File permissions
+- [x] Disable unused services
+- [x] Auto-updates
+- [ ] UFW firewall rules
+- [ ] fail2ban integration
+- [ ] auditd basic configuration
+- [ ] Compliance report output (JSON/HTML)
+- [ ] Multi-distro support
+
+---
+
+## 📚 References
+
+- [CIS Ubuntu Linux Benchmark](https://www.cisecurity.org/benchmark/ubuntu_linux)
+- [Ansible Documentation](https://docs.ansible.com/)
+
+---
+
+## 👤 Author
+
+**Mickaël Paquet** — Junior Cybersecurity Engineer  
+[LinkedIn](https://www.linkedin.com/in/mickael-paquet7a0638312) · 
+[GitHub](https://github.com/MickaxL)
